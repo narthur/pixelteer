@@ -34,15 +34,10 @@ export default async function resizeImages({
 
   const width = Math.max(meta1.width, meta2.width);
   const height = Math.max(meta1.height, meta2.height);
-
-  const out1 =
-    meta1.width !== width || meta1.height !== height
-      ? resizeImage(sharp1, width, height)
-      : sharp1;
-  const out2 =
-    meta2.width !== width || meta2.height !== height
-      ? resizeImage(sharp2, width, height)
-      : sharp2;
+  const shouldResize1 = meta1.width !== width || meta1.height !== height;
+  const shouldResize2 = meta2.width !== width || meta2.height !== height;
+  const out1 = shouldResize1 ? resizeImage(sharp1, width, height) : sharp1;
+  const out2 = shouldResize2 ? resizeImage(sharp2, width, height) : sharp2;
 
   return {
     out1: await out1.raw().toBuffer(),
