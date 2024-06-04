@@ -3,7 +3,7 @@ import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
 import takeScreenshot from "./saveScreenshot.js";
 import resizeImages from "./resizeImages.js";
-import { Browser, Page } from "puppeteer";
+import { Page } from "puppeteer";
 import { makeOutPath } from "./makeOutPath.js";
 
 type Options = {

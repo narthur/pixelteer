@@ -1,7 +1,6 @@
 import pixelmatch from "pixelmatch";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { compareUrls, CompareUrlsOptions } from "./compareUrls.js";
-import getSitemap from "./getSitemap.js";
 import readScreenshot from "./readScreenshot.js";
 import resizeImages from "./resizeImages.js";
 import fs from "fs";
@@ -20,8 +19,6 @@ async function run(options: Partial<CompareUrlsOptions> = {}) {
 
 describe("puppeteer", () => {
   beforeEach(() => {
-    vi.mocked(getSitemap).mockResolvedValue(["https://example.com"]);
-
     vi.mocked(readScreenshot)
       .mockReturnValueOnce({
         metadata: () => ({

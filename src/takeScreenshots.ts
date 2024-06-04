@@ -1,4 +1,3 @@
-import getSitemap from "./getSitemap.js";
 import puppeteer from "puppeteer";
 import { handleUrl } from "./handleUrl.js";
 import { CompareUrlsOptions } from "./compareUrls.js";
@@ -11,11 +10,8 @@ export async function takeScreenshots({
   diffThreshold,
   saveThreshold,
 }: CompareUrlsOptions): Promise<Promise<unknown>[]> {
-  const browser = await puppeteer.launch({
-    headless: true,
-  });
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
-  const count = paths.length;
 
   await page.setRequestInterception(true);
 
