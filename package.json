@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "test": "vitest",
     "puppeteer": "tsx ./puppeteer/index.ts",
     "unused": "depcheck",
@@ -13,7 +14,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "pixelmatch": "^5.3.0",
     "pngjs": "^7.0.0",
