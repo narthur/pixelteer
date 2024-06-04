@@ -25,30 +25,30 @@ export async function handleUrl({
   diffThreshold = 0.2,
   saveThreshold = 10,
 }: Options) {
-  const _prod = await takeScreenshot({
+  const buffer1 = await takeScreenshot({
     page,
     url: `${baseUrl1}${path}`,
   });
 
-  const _local = await takeScreenshot({
+  const buffer2 = await takeScreenshot({
     page,
     url: `${baseUrl2}${path}`,
   });
 
-  const { prodOut, localOut, width, height } = await resizeImages({
-    prodIn: _prod,
-    localIn: _local,
+  const { out1, out2, width, height } = await resizeImages({
+    buffer1: buffer1,
+    buffer2: buffer2,
   });
 
   const diff = new PNG({ width, height });
 
-  const c = pixelmatch(prodOut, localOut, diff.data, width, height, {
+  const c = pixelmatch(out1, out2, diff.data, width, height, {
     threshold: diffThreshold,
   });
 
   if (c > saveThreshold) {
-    fs.writeFileSync(makeOutPath(path, "1", outDir), _prod);
-    fs.writeFileSync(makeOutPath(path, "2", outDir), _local);
+    fs.writeFileSync(makeOutPath(path, "1", outDir), buffer1);
+    fs.writeFileSync(makeOutPath(path, "2", outDir), buffer2);
     fs.writeFileSync(makeOutPath(path, "diff", outDir), PNG.sync.write(diff));
   }
 

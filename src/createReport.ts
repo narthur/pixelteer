@@ -31,8 +31,8 @@ export function createReport({
                 <div class="header">
                 <h1>${p}</h1>
                 <p>
-                    <a href="${baseUrl1}${p}" target="_blank">prod</a> |
-                    <a href="${baseUrl2}${p}" target="_blank">local</a>
+                    <a href="${baseUrl1}${p}" target="_blank">1</a> |
+                    <a href="${baseUrl2}${p}" target="_blank">2</a>
                 </p>
                 </div>
                 <div class="shots">

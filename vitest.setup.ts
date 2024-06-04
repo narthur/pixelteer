@@ -8,8 +8,8 @@ vi.mock("./src/readScreenshot");
 vi.mock("./src/resizeImages", () => ({
   default: vi.fn(() =>
     Promise.resolve({
-      prodOut: Buffer.from(""),
-      localOut: Buffer.from(""),
+      out1: Buffer.from(""),
+      out2: Buffer.from(""),
       width: 100,
       height: 100,
     })
