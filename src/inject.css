@@ -1,0 +1,5 @@
+img {
+    filter: brightness(0);
+    background-color: black;
+    aspect-ratio: 1;
+}
