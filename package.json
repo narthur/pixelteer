@@ -2,7 +2,8 @@
   "name": "pixelteer",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
@@ -10,7 +11,9 @@
     "puppeteer": "tsx ./puppeteer/index.ts",
     "unused": "depcheck",
     "lint": "eslint .",
-    "checkTs": "tsc --noEmit"
+    "checkTs": "tsc --noEmit",
+    "build": "rm -rf dist && tsc --project ./tsconfig.build.json",
+    "prepare": "npm run build"
   },
   "keywords": [],
   "author": "",
