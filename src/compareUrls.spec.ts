@@ -11,7 +11,7 @@ async function run(options: Partial<CompareUrlsOptions> = {}) {
       baseUrl1: "the_base_url_1",
       baseUrl2: "the_base_url_2",
       paths: ["the_path"],
-      outDir: "file://the_out_dir",
+      outDir: "the_out_dir",
       ...options,
     })
   );
@@ -78,7 +78,7 @@ describe("puppeteer", () => {
     await run({ paths: ["the_path"] });
 
     expect(fs.writeFileSync).toBeCalledWith(
-      new URL("file://the_out_dir/the_path.1.png"),
+      "the_out_dir/the_path.1.png",
       undefined
     );
   });

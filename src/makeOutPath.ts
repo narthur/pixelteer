@@ -1,4 +1,8 @@
-export function makeOutPath(path: string, suffix: string, outDir: string): URL {
+export function makeOutPath(
+  path: string,
+  suffix: string,
+  outDir: string
+): string {
   const p = path.replaceAll("/", "_");
-  return new URL(`./${p}.${suffix}.png`, outDir);
+  return `${outDir}/${p}.${suffix}.png`;
 }

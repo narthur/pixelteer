@@ -15,7 +15,7 @@ describe("takeScreenshots", () => {
       baseUrl1: "https://example.com",
       baseUrl2: "https://example.com",
       paths: ["/"],
-      outDir: "file://out",
+      outDir: "out",
     });
 
     const browser = vi.mocked(puppeteer.launch).mock.results[0].value;
