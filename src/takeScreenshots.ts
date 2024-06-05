@@ -14,7 +14,10 @@ export async function takeScreenshots({
     throw e;
   },
 }: CompareUrlsOptions): Promise<void> {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    handleSIGINT: false,
+  });
   const page = await browser.newPage();
 
   await page.setRequestInterception(true);
