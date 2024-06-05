@@ -27,7 +27,9 @@ export async function takeScreenshots({
     }
   });
 
-  for (const path of paths) {
+  const total = paths.length;
+
+  for (const [i, path] of paths.entries()) {
     await handlePath({
       page,
       path,
@@ -37,7 +39,7 @@ export async function takeScreenshots({
       diffThreshold,
       saveThreshold,
     })
-      .then(onSuccess)
+      .then((result) => onSuccess({ ...result, total, current: i + 1 }))
       .catch(onError);
   }
 

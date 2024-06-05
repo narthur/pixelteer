@@ -10,7 +10,7 @@ export type CompareUrlsOptions = {
   force?: boolean;
   diffThreshold?: number;
   saveThreshold?: number;
-  onSuccess?: (result: PathResult) => void;
+  onSuccess?: (data: PathResult & { total: number; current: number }) => void;
   onError?: (e: unknown) => void;
 };
 
