@@ -1,5 +1,6 @@
 import fs from "fs";
 import { takeScreenshots } from "./takeScreenshots.js";
+import { PathResult } from "./handlePath.js";
 
 export type CompareUrlsOptions = {
   baseUrl1: string;
@@ -9,11 +10,11 @@ export type CompareUrlsOptions = {
   force?: boolean;
   diffThreshold?: number;
   saveThreshold?: number;
+  onSuccess?: (result: PathResult) => void;
+  onError?: (e: unknown) => void;
 };
 
-export function compareUrls(
-  options: CompareUrlsOptions
-): Promise<Promise<unknown>[]> {
+export async function compareUrls(options: CompareUrlsOptions): Promise<void> {
   if (!fs.existsSync(options.outDir)) {
     fs.mkdirSync(options.outDir);
   }
@@ -24,5 +25,5 @@ export function compareUrls(
     throw new Error("Directory is not empty. Use `force` to overwrite.");
   }
 
-  return takeScreenshots(options);
+  await takeScreenshots(options);
 }

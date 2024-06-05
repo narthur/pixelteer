@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { handleUrl } from "./handleUrl.js";
+import { handlePath } from "./handlePath.js";
 import { CompareUrlsOptions } from "./compareUrls.js";
 
 export async function takeScreenshots({
@@ -9,7 +9,11 @@ export async function takeScreenshots({
   outDir,
   diffThreshold,
   saveThreshold,
-}: CompareUrlsOptions): Promise<Promise<unknown>[]> {
+  onSuccess = () => {},
+  onError = (e: unknown) => {
+    throw e;
+  },
+}: CompareUrlsOptions): Promise<void> {
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
 
@@ -23,8 +27,8 @@ export async function takeScreenshots({
     }
   });
 
-  const promises = paths.map((path) =>
-    handleUrl({
+  for (const path of paths) {
+    await handlePath({
       page,
       path,
       baseUrl1,
@@ -33,9 +37,9 @@ export async function takeScreenshots({
       diffThreshold,
       saveThreshold,
     })
-  );
+      .then(onSuccess)
+      .catch(onError);
+  }
 
-  Promise.allSettled(promises).then(() => browser.close());
-
-  return promises;
+  browser.close();
 }

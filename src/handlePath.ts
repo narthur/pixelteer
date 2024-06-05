@@ -16,7 +16,13 @@ type Options = {
   saveThreshold?: number;
 };
 
-export async function handleUrl({
+export type PathResult = {
+  path: string;
+  diff: number;
+  ms: number;
+};
+
+export async function handlePath({
   page,
   path,
   baseUrl1,
@@ -24,7 +30,8 @@ export async function handleUrl({
   outDir,
   diffThreshold = 0.2,
   saveThreshold = 10,
-}: Options) {
+}: Options): Promise<PathResult> {
+  const start = new Date().getTime();
   const buffer1 = await takeScreenshot({
     page,
     url: `${baseUrl1}${path}`,
@@ -52,5 +59,5 @@ export async function handleUrl({
     fs.writeFileSync(makeOutPath(path, "diff", outDir), PNG.sync.write(diff));
   }
 
-  return c;
+  return { path, diff: c, ms: new Date().getTime() - start };
 }

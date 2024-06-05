@@ -6,15 +6,13 @@ import resizeImages from "./resizeImages.js";
 import fs from "fs";
 
 async function run(options: Partial<CompareUrlsOptions> = {}) {
-  return Promise.all(
-    await compareUrls({
-      baseUrl1: "the_base_url_1",
-      baseUrl2: "the_base_url_2",
-      paths: ["the_path"],
-      outDir: "the_out_dir",
-      ...options,
-    })
-  );
+  return compareUrls({
+    baseUrl1: "the_base_url_1",
+    baseUrl2: "the_base_url_2",
+    paths: ["the_path"],
+    outDir: "the_out_dir",
+    ...options,
+  });
 }
 
 describe("puppeteer", () => {
