@@ -80,7 +80,5 @@ export function createReport({
         </html>
     `;
 
-  const reportPath = new URL("./report.html", outDir);
-
-  fs.writeFileSync(reportPath, html);
+  fs.writeFileSync(`${outDir}/report.html`, html);
 }
