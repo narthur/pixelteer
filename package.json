@@ -6,7 +6,6 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "test": "vitest",
     "puppeteer": "tsx ./puppeteer/index.ts",
     "unused": "depcheck",
