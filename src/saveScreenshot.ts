@@ -14,12 +14,24 @@ export default async function takeScreenshot({
   url,
 }: Options): Promise<Buffer> {
   const loadingPromise = page.waitForNavigation({
+    timeout: 0,
     waitUntil: "domcontentloaded",
   });
 
   await page.goto(url);
   await page.addStyleTag({ content: css });
-  await loadingPromise;
+
+  // Don't pound the database too hard
+  await new Promise((resolve) => setTimeout(resolve, 100));
+
+  // Use our own timeout that we can more easily catch
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    setTimeout(() => {
+      reject(new Error("Timeout"));
+    }, 60000);
+  });
+
+  await Promise.race([loadingPromise, timeoutPromise]);
 
   const buffer = await page.screenshot({
     fullPage: true,
