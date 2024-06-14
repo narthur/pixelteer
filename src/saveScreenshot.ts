@@ -13,30 +13,52 @@ export default async function takeScreenshot({
   page,
   url,
 }: Options): Promise<Buffer> {
-  const loadingPromise = page.waitForNavigation({
-    timeout: 0,
-    waitUntil: "domcontentloaded",
-  });
+  let attempt = 0;
+  const maxAttempts = 10;
+  let delay = 100; // Initial delay in milliseconds
 
-  await page.goto(url);
-  await page.addStyleTag({ content: css });
+  while (attempt < maxAttempts) {
+    try {
+      const loadingPromise = page.waitForNavigation({
+        timeout: 0,
+        waitUntil: "domcontentloaded",
+      });
 
-  // Don't pound the database too hard
-  await new Promise((resolve) => setTimeout(resolve, 100));
+      await page.goto(url);
+      await page.addStyleTag({ content: css });
 
-  // Use our own timeout that we can more easily catch
-  const timeoutPromise = new Promise<never>((_, reject) => {
-    setTimeout(() => {
-      reject(new Error("Timeout"));
-    }, 60000);
-  });
+      // Use a dynamic delay based on the attempt count
+      await new Promise((resolve) => setTimeout(resolve, delay));
 
-  await Promise.race([loadingPromise, timeoutPromise]);
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => {
+          reject(new Error("Timeout"));
+        }, 10000);
+      });
 
-  const buffer = await page.screenshot({
-    fullPage: true,
-    optimizeForSpeed: true,
-  });
+      await Promise.race([loadingPromise, timeoutPromise]);
 
-  return buffer;
+      const buffer = await page.screenshot({
+        fullPage: true,
+        optimizeForSpeed: true,
+      });
+
+      return buffer; // Successful capture, return the buffer
+    } catch (error: unknown) {
+      attempt++;
+      if (attempt >= maxAttempts) {
+        throw error; // Exceeded max attempts, rethrow the last error
+      }
+
+      // Exponential backoff: double the delay for the next attempt
+      delay *= 2;
+
+      // Optionally log the retry attempt
+      console.warn(`Retry attempt ${attempt} after error:`);
+      console.log(error);
+    }
+  }
+
+  // This line should never be reached due to the throw in the catch block
+  throw new Error("Unexpected error in captureScreenshotWithRetry");
 }
