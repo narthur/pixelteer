@@ -3,3 +3,4 @@ node_modules/
 scaffold/out/
 package-lock.json
 dist/
+shots/

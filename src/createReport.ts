@@ -29,7 +29,7 @@ export function createReport({
     return `
             <div class="set" data-path="${p}">
                 <div class="header">
-                <h1>${p}</h1>
+                <h2>${p}</h2>
                 <p>
                     <a href="${baseUrl1}${p}" target="_blank">1</a> |
                     <a href="${baseUrl2}${p}" target="_blank">2</a>
@@ -51,10 +51,10 @@ export function createReport({
         <html>
         <head>
         <style>
-        h1 {
+        h2 {
             margin-bottom: 0;
         }
-        p {
+        .set p {
             margin-top: 0;
         }
         .shots {
@@ -75,6 +75,21 @@ export function createReport({
         </style>
         </head>
             <body>
+                <h1>Visual Diff Report</h1>
+
+                <p>Base URLs:</p>
+
+                <ol>
+                    <li>${baseUrl1}</li>
+                    <li>${baseUrl2}</li>
+                </ol>
+
+                <p>Diff images highlight visual differences between the two base URLs.</p>
+
+                <p>Click on an image to open that image in your browser and zoom in to see details. Use your browser's back button to get back here.</p>
+
+                <p>This report may ommit pages that did not meet a minimum visual discrepancy threshold.</p>
+
                 ${panes.join("\n")}
             </body>
         </html>
